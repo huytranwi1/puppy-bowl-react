@@ -1,1 +1,1 @@
-git@github.com:huytranwi1/puppy-bowl-react.git
+https://app.netlify.com/teams/huytranwi1/overview
