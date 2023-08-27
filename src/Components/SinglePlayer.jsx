@@ -4,30 +4,44 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function SinglePlayer() {
 
-  const {id} = useParams()
+  const {id} = useParams();
+
   const navigate = useNavigate()
 
-    const [playerInfo, setPlayerInfo] = useState([])
+    const [playerInfo, setPlayerInfo] = useState({})
+    const [error, setError] = useState(null)
 
     useEffect(() => {
+
         async function fetchSinglePlayer() {
             try {
-                const response = await fetch (`https://fsa-puppy-bowl.herokuapp.com/api/2302-ACC-PT-WEB-PT-D/players/${id}`);
+                const response = await fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2302-ACC-PT-WEB-PT-D/players/${id}`);
+                console.log(response)
+                if(!response){
+                  return null;
+                }
                 const result = await response.json();
                 console.log(result)
-                setPlayerInfo(result.data.player)
+               
+                const playerData = result.data.player
+                console.log(playerData)
+                setPlayerInfo(playerData)
             } catch (error){
-                console.error(error)
+                setError(error)
             }
         }
         fetchSinglePlayer()
+        
     }, [id])
 
-    useEffect(() => {
+    useEffect(() =>{
       console.log(playerInfo)
-    }, [playerInfo])
+    },[playerInfo])
+
+
 
         async function deleteHandler(){
+         
       try{
         const response = await fetch (`https://fsa-puppy-bowl.herokuapp.com/api/2302-ACC-PT-WEB-PT-D/players/${id}`,{
           method: "DELETE"
@@ -38,22 +52,26 @@ export default function SinglePlayer() {
       } catch(error) {
         console.error(error)
       }
+
+      window.location.reload()
+      
     }
 
     return(
-
-
-    <div className="single-player">
-      <div className="player-details">
-        <ul>
-          <li>Id: {playerInfo.id}</li>
-          <li>Name: {playerInfo.name}</li>
-          <li>Breed: {playerInfo.breed}</li>
-          <li>Status: {playerInfo.status}</li>
-        </ul>
-        <button onClick={deleteHandler}>delete</button>
+      <div>
+        <h1>player detail</h1>
+        {playerInfo ?(
+          <div className="player-info" key={playerInfo.id}>
+            <h2>{playerInfo.name}</h2>
+            <p>Id: {playerInfo.id}</p>
+            <p>Name: {playerInfo.name}</p>
+            <p>Breed: {playerInfo.breed} </p>
+            <button onClick={() => {navigate("/")}}>Back</button>
+            <button onClick={deleteHandler}>Delete</button>
+          </div>
+          
+        ):null}
       </div>
-    <button onClick={() => {navigate("/")}}>Back</button>
-  </div> 
+
   )
 }
