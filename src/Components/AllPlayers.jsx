@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+ import './Allplayers.css'
+
 
 export default function AllPlayers() {
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
   const [players, setPlayers] = useState([]);
   const [search, setSearch] = useState('');
@@ -37,6 +39,7 @@ export default function AllPlayers() {
   return (
 
     <div className="all-player">
+        
 
         <div className="search-players">
             <label>
@@ -44,24 +47,25 @@ export default function AllPlayers() {
             </label>
         </div>
 
+        <h1>Welcome Players</h1>
+
+        <div className="display-players">
         {filterPlayers ? filterPlayers.map((player) => {
             return (
                 <div key={player.id}>
                     <p>{player.name}</p>
-                    <img src={player.imageUrl} width="50px" height="50px" />
+                    <img src={player.imageUrl} width="200px" height="200px" />
                     <p>{player.breed}</p>
-                    <p>{player.id}</p>
+                    <button onClick={()=>{navigate(`/singlePlayerId/${player.id}`)}}>Detail</button>
                 </div>
             )
         }):null}
 
-
+         <button onClick={()=>{navigate("/newPlayerForm")}}>Add new player</button>
+        </div>
+        
     </div>
 
   )
 
-
-//  <div className="add-player-form">
-//         <button onClick={()=>{navigate("/newPlayerForm")}}>Add</button>
-//       </div>
     }

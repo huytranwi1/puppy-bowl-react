@@ -58,14 +58,16 @@ export default function SinglePlayer() {
     }
 
     return(
-      <div>
+      <div className="player-details">
         <h1>player detail</h1>
         {playerInfo ?(
           <div className="player-info" key={playerInfo.id}>
             <h2>{playerInfo.name}</h2>
+            <img src={playerInfo.imageUrl} width="50px" height="50px"/>
             <p>Id: {playerInfo.id}</p>
             <p>Name: {playerInfo.name}</p>
             <p>Breed: {playerInfo.breed} </p>
+            <p>Status: {playerInfo.status}</p>
             <button onClick={() => {navigate("/")}}>Back</button>
             <button onClick={deleteHandler}>Delete</button>
           </div>
